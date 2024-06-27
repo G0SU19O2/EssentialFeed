@@ -11,6 +11,7 @@
 		4631780D2C2D4AFB002FCDCB /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463178022C2D4AFB002FCDCB /* EssentialFeed.framework */; };
 		463178122C2D4AFB002FCDCB /* EssentialFeedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463178112C2D4AFB002FCDCB /* EssentialFeedTests.swift */; };
 		463178132C2D4AFB002FCDCB /* EssentialFeed.h in Headers */ = {isa = PBXBuildFile; fileRef = 463178052C2D4AFB002FCDCB /* EssentialFeed.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4631781D2C2D4B66002FCDCB /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4631781C2C2D4B66002FCDCB /* FeedItem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		463178062C2D4AFB002FCDCB /* EssentialFeed.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = EssentialFeed.docc; sourceTree = "<group>"; };
 		4631780C2C2D4AFB002FCDCB /* EssentialFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		463178112C2D4AFB002FCDCB /* EssentialFeedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeedTests.swift; sourceTree = "<group>"; };
+		4631781C2C2D4B66002FCDCB /* FeedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			children = (
 				463178052C2D4AFB002FCDCB /* EssentialFeed.h */,
 				463178062C2D4AFB002FCDCB /* EssentialFeed.docc */,
+				4631781C2C2D4B66002FCDCB /* FeedItem.swift */,
 			);
 			path = EssentialFeed;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4631781D2C2D4B66002FCDCB /* FeedItem.swift in Sources */,
 				463178072C2D4AFB002FCDCB /* EssentialFeed.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
