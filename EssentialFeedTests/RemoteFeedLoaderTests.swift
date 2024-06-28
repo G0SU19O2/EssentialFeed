@@ -42,12 +42,15 @@ struct RemoteFeedLoaderTests {
 
     @Test func load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
-        var expectedErrors: [RemoteFeedLoader.Error] = []
-        sut.load {
-            expectedErrors.append($0)
+        let samples = [199, 201, 300, 400, 500]
+        for (index, sample) in samples.enumerated() {
+            var expectedErrors: [RemoteFeedLoader.Error] = []
+            sut.load {
+                expectedErrors.append($0)
+            }
+            client.complete(withStatusCode: sample, at: index)
+            #expect(expectedErrors == [.invalidData])
         }
-        client.complete(withStatusCode: 400)
-        #expect(expectedErrors == [.invalidData])
     }
 
     // MARK: - Helpers
@@ -75,7 +78,7 @@ struct RemoteFeedLoaderTests {
         func complete(withStatusCode: Int, at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
-                statusCode: 400,
+                statusCode: withStatusCode,
                 httpVersion: nil,
                 headerFields: nil
             )
