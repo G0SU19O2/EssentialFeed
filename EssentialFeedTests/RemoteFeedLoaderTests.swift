@@ -17,15 +17,15 @@ struct RemoteFeedLoaderTests {
     @Test func load_requestsDataFromURL() {
         let url = URL(string: "https://google.com")!
         let (sut, client) = makeSUT(url: url)
-        sut.load()
+        sut.load(completion: { _ in })
         #expect(client.requestedURLs == [url])
     }
 
     @Test func loadTwice_requestDataFromURL() {
         let url = URL(string: "https://google.com")!
         let (sut, client) = makeSUT(url: url)
-        sut.load()
-        sut.load()
+        sut.load(completion: { _ in })
+        sut.load(completion: { _ in })
         #expect(client.requestedURLs == [url, url])
     }
 
