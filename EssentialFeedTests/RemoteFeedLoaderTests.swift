@@ -31,11 +31,12 @@ struct RemoteFeedLoaderTests {
 
     @Test func load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
-        client.error = NSError(domain: "Test", code: 0)
         var expectedErrors: [RemoteFeedLoader.Error] = []
         sut.load {
             expectedErrors.append($0)
         }
+        let clientError = NSError(domain: "Test", code: 0)
+        client.completions[0](clientError)
         #expect(expectedErrors == [.connectivity])
     }
 
@@ -49,11 +50,9 @@ struct RemoteFeedLoaderTests {
 
     class HTTPClientSpy: HTTPClient {
         var requestedURLs: [URL] = []
-        var error: Error?
-        func get(from url: URL, completion: (Error) -> Void) {
-            if let error {
-                completion(error)
-            }
+        var completions: [(Error) -> Void] = []
+        func get(from url: URL, completion: @escaping (Error) -> Void) {
+            completions.append(completion)
             requestedURLs.append(url)
         }
     }
