@@ -40,6 +40,16 @@ struct RemoteFeedLoaderTests {
         #expect(expectedErrors == [.connectivity])
     }
 
+    @Test func load_deliversErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        var expectedErrors: [RemoteFeedLoader.Error] = []
+        sut.load {
+            expectedErrors.append($0)
+        }
+        client.complete(withStatusCode: 400)
+        #expect(expectedErrors == [.invalidData])
+    }
+
     // MARK: - Helpers
 
     private func makeSUT(url: URL = URL(string: "https://google.com")!) -> (RemoteFeedLoader, HTTPClientSpy) {
@@ -53,13 +63,23 @@ struct RemoteFeedLoaderTests {
             return messages.map { $0.url }
         }
 
-        private var messages: [(url: URL, completion: (Error) -> Void)] = []
-        func get(from url: URL, completion: @escaping (Error) -> Void) {
+        private var messages: [(url: URL, completion: (Error?, HTTPURLResponse?) -> Void)] = []
+        func get(from url: URL, completion: @escaping (Error?, HTTPURLResponse?) -> Void) {
             messages.append((url, completion))
         }
 
         func complete(with error: Error, at index: Int = 0) {
-            messages[index].completion(error)
+            messages[index].completion(error, nil)
+        }
+
+        func complete(withStatusCode: Int, at index: Int = 0) {
+            let response = HTTPURLResponse(
+                url: requestedURLs[index],
+                statusCode: 400,
+                httpVersion: nil,
+                headerFields: nil
+            )
+            messages[index].completion(nil, response)
         }
     }
 }
