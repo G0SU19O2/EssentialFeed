@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias HTTPClientResult = Result<HTTPURLResponse, Error>
+public typealias HTTPClientResult = Result<(Data, HTTPURLResponse), Error>
 
 public final class RemoteFeedLoader {
     public enum Error: Swift.Error {
