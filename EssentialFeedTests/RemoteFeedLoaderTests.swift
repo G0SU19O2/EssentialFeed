@@ -59,7 +59,7 @@ struct RemoteFeedLoaderTests {
     @Test func load_deliversNoItemOn200HTTPResponseWithEmptyJSONList() {
         let (sut, client) = makeSUT()
         expect(sut, toCompleteWith: .success([])) {
-            let emptyJSONList = Data("{\"items\": []}".utf8)
+            let emptyJSONList = makeItemsJSON([])
             client.complete(withStatusCode: 200, data: emptyJSONList)
         }
     }
