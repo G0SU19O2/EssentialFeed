@@ -42,7 +42,8 @@ struct RemoteFeedLoaderTests {
         let samples = [199, 201, 300, 400, 500]
         for (index, sample) in samples.enumerated() {
             expect(sut, toCompleteWith: .failure(.invalidData)) {
-                client.complete(withStatusCode: sample, at: index)
+                let json = makeItemsJSON([])
+                client.complete(withStatusCode: sample, data: json, at: index)
             }
         }
     }
@@ -113,7 +114,7 @@ struct RemoteFeedLoaderTests {
             messages[index].completion(.failure(error))
         }
 
-        func complete(withStatusCode: Int, data: Data = Data(), at index: Int = 0) {
+        func complete(withStatusCode: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
                 statusCode: withStatusCode,
