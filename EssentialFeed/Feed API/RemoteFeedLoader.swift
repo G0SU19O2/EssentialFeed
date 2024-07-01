@@ -9,13 +9,13 @@ import Foundation
 
 public typealias HTTPClientResult = Result<(Data, HTTPURLResponse), Error>
 
-public final class RemoteFeedLoader {
+public final class RemoteFeedLoader: FeedLoader {
     public enum Error: Swift.Error {
         case connectivity
         case invalidData
     }
 
-    public typealias Result = Swift.Result<[FeedItem], Error>
+    public typealias Result = LoadFeedResult
 
     private let client: HTTPClient
     private let url: URL
@@ -24,14 +24,14 @@ public final class RemoteFeedLoader {
         self.client = client
     }
 
-    public func load(completion: @escaping (Result) -> Void) {
+    public func load(completion: @escaping (LoadFeedResult) -> Void) {
         client.get(from: url) { [weak self] result in
-            guard let self else { return }
+            guard self != nil else { return }
             switch result {
             case let .success((data, response)):
                 completion(FeedItemMapper.map(data, from: response))
             case .failure:
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
         }
     }
