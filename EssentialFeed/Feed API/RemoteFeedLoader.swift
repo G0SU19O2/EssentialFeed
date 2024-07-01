@@ -41,10 +41,6 @@ public final class RemoteFeedLoader {
     }
 }
 
-public protocol HTTPClient {
-    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void)
-}
-
 private class FeedItemMapper {
     private static var OK_200: Int { return 200 }
     private struct Root: Decodable {
