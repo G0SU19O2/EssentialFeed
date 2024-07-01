@@ -6,30 +6,30 @@
 //
 
 import EssentialFeed
-import Testing
+import XCTest
 
-struct RemoteFeedLoaderTests {
-    @Test func init_doesNotRequestDataFromURL() {
+class RemoteFeedLoaderTests: XCTestCase {
+    func test_init_doesNotRequestDataFromURL() {
         let (_, client) = makeSUT()
-        #expect(client.requestedURLs.isEmpty)
+        XCTAssertTrue(client.requestedURLs.isEmpty)
     }
 
-    @Test func load_requestsDataFromURL() {
+    func test_load_requestsDataFromURL() {
         let url = URL(string: "https://google.com")!
         let (sut, client) = makeSUT(url: url)
         sut.load(completion: { _ in })
-        #expect(client.requestedURLs == [url])
+        XCTAssertEqual(client.requestedURLs, [url])
     }
 
-    @Test func loadTwice_requestDataFromURL() {
+    func test_loadTwice_requestDataFromURL() {
         let url = URL(string: "https://google.com")!
         let (sut, client) = makeSUT(url: url)
         sut.load(completion: { _ in })
         sut.load(completion: { _ in })
-        #expect(client.requestedURLs == [url, url])
+        XCTAssertEqual(client.requestedURLs, [url, url])
     }
 
-    @Test func load_deliversErrorOnClientError() {
+    func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         expect(sut, toCompleteWith: .failure(.connectivity)) {
             let clientError = NSError(domain: "Test", code: 0)
@@ -37,7 +37,7 @@ struct RemoteFeedLoaderTests {
         }
     }
 
-    @Test func load_deliversErrorOnNon200HTTPResponse() {
+    func test_load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         let samples = [199, 201, 300, 400, 500]
         for (index, sample) in samples.enumerated() {
@@ -48,7 +48,7 @@ struct RemoteFeedLoaderTests {
         }
     }
 
-    @Test func load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
+    func test_load_deliversErrorOn200HTTPResponseWithInvalidJSON() {
         let (sut, client) = makeSUT()
         expect(sut, toCompleteWith: .failure(.invalidData)) {
             let invalidJSON = Data("invalid JSON".utf8)
@@ -56,7 +56,7 @@ struct RemoteFeedLoaderTests {
         }
     }
 
-    @Test func load_deliversNoItemOn200HTTPResponseWithEmptyJSONList() {
+    func test_load_deliversNoItemOn200HTTPResponseWithEmptyJSONList() {
         let (sut, client) = makeSUT()
         expect(sut, toCompleteWith: .success([])) {
             let emptyJSONList = makeItemsJSON([])
@@ -64,7 +64,7 @@ struct RemoteFeedLoaderTests {
         }
     }
 
-    @Test func load_deliversItemsOn200HTTPResponseWithJSONItems() {
+    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
         let item1 = makeItem(id: UUID(), description: "a description", location: "a location", imageURL: URL(string: "https://a-url.com")!)
         let item2 = makeItem(id: UUID(), description: nil, location: nil, imageURL: URL(string: "https://another-url.com")!)
@@ -76,10 +76,18 @@ struct RemoteFeedLoaderTests {
 
     // MARK: - Helpers
 
-    private func makeSUT(url: URL = URL(string: "https://google.com")!) -> (RemoteFeedLoader, HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "https://google.com")!, filePath: StaticString = #filePath, line: UInt = #line) -> (RemoteFeedLoader, HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteFeedLoader(url: url, client: client)
+        trackForMemoryLeads(client, filePath: filePath, line: line)
+        trackForMemoryLeads(sut, filePath: filePath, line: line)
         return (sut, client)
+    }
+
+    private func trackForMemoryLeads(_ instance: AnyObject, filePath: StaticString = #filePath, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in 
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak", file: filePath, line: line)
+        }
     }
 
     private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
@@ -93,11 +101,11 @@ struct RemoteFeedLoaderTests {
         return try! JSONSerialization.data(withJSONObject: json)
     }
 
-    private func expect(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, when action: () -> Void, filePath: String = #filePath, line: Int = #line) {
+    private func expect(_ sut: RemoteFeedLoader, toCompleteWith result: RemoteFeedLoader.Result, when action: () -> Void, filePath: StaticString = #filePath, line: UInt = #line) {
         var capturedResults: [RemoteFeedLoader.Result] = []
         sut.load { capturedResults.append($0) }
         action()
-        #expect(capturedResults == [result], sourceLocation: SourceLocation(filePath: filePath, line: line))
+        XCTAssertEqual(capturedResults, [result], file: filePath, line: line)
     }
 
     class HTTPClientSpy: HTTPClient {
