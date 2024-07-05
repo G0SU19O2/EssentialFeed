@@ -9,7 +9,7 @@ import EssentialFeed
 import Foundation
 import XCTest
 
-class URLSessionHTTPClient {
+class URLSessionHTTPClient: HTTPClient {
     var session: URLSession
     init(session: URLSession = .shared) {
         self.session = session
@@ -97,7 +97,7 @@ class URLSessionHTTPClientTests: XCTestCase {
 
     // MARK: - Helpers
 
-    private func makeSUT(filePath: StaticString = #filePath, line: UInt = #line) -> URLSessionHTTPClient {
+    private func makeSUT(filePath: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
         let sut = URLSessionHTTPClient()
         trackForMemoryLeads(sut, filePath: #filePath, line: #line)
         return sut
