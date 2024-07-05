@@ -21,7 +21,7 @@ class URLSessionHTTPClient {
         session.dataTask(with: url) { data, response, error in
             if let error {
                 completion(.failure(error))
-            } else if let data, !data.isEmpty, let response = response as? HTTPURLResponse {
+            } else if let data, let response = response as? HTTPURLResponse {
                 completion(.success((data, response)))
             } else {
                 completion(.failure(UnexpectedValuesRepresentation()))
@@ -77,10 +77,31 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertNotNil(resultErrorFor(data: data, response: nonHTTPResponse, error: nil))
     }
 
+    func test_getFromURL_succeedsWithEmptyDataOnHTTPURLResponseWithNilData() {
+        let anyHttpResponse = anyHTTPURLResponse()
+        URLProtocolStub.stub(data: nil, response: anyHttpResponse, error: nil)
+        let sut = makeSUT()
+        let url = anyURL()
+        let expectation = expectation(description: "Wait for complete")
+        sut.get(from: url) { result in
+            switch result {
+            case let .success((data, response)):
+                let emptyData = Data()
+                XCTAssertEqual(emptyData, data)
+                XCTAssertEqual(anyHttpResponse.url, response.url)
+                XCTAssertEqual(anyHttpResponse.statusCode, response.statusCode)
+            case .failure:
+                XCTFail("Expected success, got \(result) instead")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+
     func test_getFromURL_succeedsOnHTTPURLResponseWithData() {
         let anyHttpResponse = anyHTTPURLResponse()
         let anyData = anyData()
-        URLProtocolStub.stub(data: anyData, response: anyHttpResponse)
+        URLProtocolStub.stub(data: anyData, response: anyHttpResponse, error: nil)
         let sut = makeSUT()
         let url = anyURL()
         let expectation = expectation(description: "Wait for complete")
@@ -154,7 +175,7 @@ class URLSessionHTTPClientTests: XCTestCase {
             let error: Error?
         }
 
-        static func stub(data: Data?, response: URLResponse?, error: Error? = nil) {
+        static func stub(data: Data?, response: URLResponse?, error: Error?) {
             stub = Stub(data: data, response: response, error: error)
         }
 
