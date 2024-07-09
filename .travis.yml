@@ -1,0 +1,4 @@
+language: swift
+os: osx
+osx_image: xcode15.4
+script: xcodebuild clean build test -project EssentialFeed.xcodeproj -scheme "CI"
