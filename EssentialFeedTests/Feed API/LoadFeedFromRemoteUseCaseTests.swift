@@ -66,8 +66,8 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
 
     func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
-        let item1 = makeItem(id: UUID(), description: "a description", location: "a location", imageURL: URL(string: "https://a-url.com")!)
-        let item2 = makeItem(id: UUID(), description: nil, location: nil, imageURL: URL(string: "https://another-url.com")!)
+        let item1 = makeItem(id: UUID(), description: "a description", location: "a location", url: URL(string: "https://a-url.com")!)
+        let item2 = makeItem(id: UUID(), description: nil, location: nil, url: URL(string: "https://another-url.com")!)
         expect(sut, toCompleteWith: .success([item1.model, item2.model])) {
             let json = makeItemsJSON([item1.json, item2.json])
             client.complete(withStatusCode: 200, data: json)
@@ -99,9 +99,9 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
         return .failure(error)
     }
 
-    private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: Any]) {
-        let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
-        let json = ["id": id.uuidString, "description": description, "location": location, "image": imageURL.absoluteString]
+    private func makeItem(id: UUID, description: String? = nil, location: String? = nil, url: URL) -> (model: FeedImage, json: [String: Any]) {
+        let item = FeedImage(id: id, description: description, location: location, url: url)
+        let json = ["id": id.uuidString, "description": description, "location": location, "image": url.absoluteString]
         return (item, json as [String: Any])
     }
 
