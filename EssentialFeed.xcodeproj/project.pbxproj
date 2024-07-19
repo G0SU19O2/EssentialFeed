@@ -25,6 +25,8 @@
 		46C7DD432C3D3A820071E072 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 463178022C2D4AFB002FCDCB /* EssentialFeed.framework */; };
 		46C7DD492C3D44E70071E072 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463178272C36A3C8002FCDCB /* XCTestCase+MemoryLeakTracking.swift */; };
 		E910E2D62C4AAE6B0089D53E /* ValidateFeedCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910E2D52C4AAE6B0089D53E /* ValidateFeedCacheUseCaseTests.swift */; };
+		E910E2D82C4AB3F90089D53E /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910E2D72C4AB3F90089D53E /* SharedTestHelpers.swift */; };
+		E910E2DA2C4AB4080089D53E /* FeedCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910E2D92C4AB4080089D53E /* FeedCacheTestHelpers.swift */; };
 		E91AFA102C4814FB00D0FB8C /* LoadFeedFromCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AFA0F2C4814FB00D0FB8C /* LoadFeedFromCacheUseCaseTests.swift */; };
 		E91AFA122C48160800D0FB8C /* FeedStoreSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91AFA112C48160800D0FB8C /* FeedStoreSpy.swift */; };
 		E9457D012C343BC9008DD17F /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9457D002C343BC9008DD17F /* URLSessionHTTPClientTests.swift */; };
@@ -70,6 +72,8 @@
 		46C7DD3F2C3D3A820071E072 /* EssentialFeedAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EssentialFeedAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46C7DD412C3D3A820071E072 /* EssentialFeedAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssentialFeedAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		E910E2D52C4AAE6B0089D53E /* ValidateFeedCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateFeedCacheUseCaseTests.swift; sourceTree = "<group>"; };
+		E910E2D72C4AB3F90089D53E /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
+		E910E2D92C4AB4080089D53E /* FeedCacheTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCacheTestHelpers.swift; sourceTree = "<group>"; };
 		E91AFA0F2C4814FB00D0FB8C /* LoadFeedFromCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadFeedFromCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		E91AFA112C48160800D0FB8C /* FeedStoreSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedStoreSpy.swift; sourceTree = "<group>"; };
 		E9457D002C343BC9008DD17F /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				463178272C36A3C8002FCDCB /* XCTestCase+MemoryLeakTracking.swift */,
+				E910E2D72C4AB3F90089D53E /* SharedTestHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -210,6 +215,7 @@
 			isa = PBXGroup;
 			children = (
 				E91AFA112C48160800D0FB8C /* FeedStoreSpy.swift */,
+				E910E2D92C4AB4080089D53E /* FeedCacheTestHelpers.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -383,6 +389,8 @@
 				463178222C2D4FD8002FCDCB /* LoadFeedFromRemoteUseCaseTests.swift in Sources */,
 				E9457D012C343BC9008DD17F /* URLSessionHTTPClientTests.swift in Sources */,
 				E91AFA122C48160800D0FB8C /* FeedStoreSpy.swift in Sources */,
+				E910E2DA2C4AB4080089D53E /* FeedCacheTestHelpers.swift in Sources */,
+				E910E2D82C4AB3F90089D53E /* SharedTestHelpers.swift in Sources */,
 				46132C382C412D8500A32CA5 /* CacheFeedUseCaseTests.swift in Sources */,
 				E91AFA102C4814FB00D0FB8C /* LoadFeedFromCacheUseCaseTests.swift in Sources */,
 				463178282C36A3C8002FCDCB /* XCTestCase+MemoryLeakTracking.swift in Sources */,
