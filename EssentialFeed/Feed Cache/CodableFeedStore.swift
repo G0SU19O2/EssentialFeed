@@ -39,7 +39,7 @@ public class CodableFeedStore: FeedStore {
     }
 
     private let storeURL: URL
-    private let queue = DispatchQueue(label: "\(CodableFeedImage.self)", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "\(CodableFeedImage.self)", qos: .userInitiated, attributes: .concurrent)
     public func retrieve(completion: @escaping RetrievalCompletion) {
         let storeURL = storeURL
         queue.async {
@@ -59,7 +59,7 @@ public class CodableFeedStore: FeedStore {
 
     public func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
         let storeURL = storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             let encoder = JSONEncoder()
             let cache = Cache(feed: feed.map(CodableFeedImage.init), timestamp: timestamp)
             do {
@@ -74,7 +74,7 @@ public class CodableFeedStore: FeedStore {
 
     public func deleteCachedFeed(completion: @escaping DeletionCompletion) {
         let storeURL = storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             guard FileManager.default.fileExists(atPath: storeURL.path(percentEncoded: false)) else {
                 completion(nil)
                 return

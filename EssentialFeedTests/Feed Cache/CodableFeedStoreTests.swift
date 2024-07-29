@@ -157,7 +157,7 @@ final class CodableFeedStoreTests: XCTestCase {
     }
 
     private func expect(_ sut: FeedStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #file, line: UInt = #line) {
-        let exp = expectation(description: "Wait fo cache retrieval")
+        let exp = expectation(description: "Wait for cache retrieval")
         sut.retrieve { retrievedResult in
             switch (expectedResult, retrievedResult) {
             case (.empty, .empty), (.failure, .failure):
@@ -175,7 +175,7 @@ final class CodableFeedStoreTests: XCTestCase {
 
     @discardableResult
     private func insert(_ cache: (feed: [LocalFeedImage], timestamp: Date), to sut: FeedStore) -> Error? {
-        let exp = expectation(description: "Wait fo cache insertion")
+        let exp = expectation(description: "Wait for cache insertion")
         var insertionError: Error?
         sut.insert(cache.feed, timestamp: cache.timestamp) { receivedInsertionError in
             insertionError = receivedInsertionError
