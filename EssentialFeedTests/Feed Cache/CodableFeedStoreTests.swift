@@ -71,16 +71,18 @@ final class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieveTwice: .failure(anyNSError()))
     }
 
-    func test_insert_overridesPreviouslyInsertedCacheValues() {
+    func test_insert_deliversNoErrorOnEmptyCache() {
         let sut = makeSUT()
-
         let firstInsertionError = insert((uniqueImageFeed().local, Date()), to: sut)
         XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
+    }
 
+    func test_insert_overridesPreviousInsertedCacheValues() {
+        let sut = makeSUT()
+        insert((uniqueImageFeed().local, Date()), to: sut)
         let latestFeed = uniqueImageFeed().local
         let latestTimestamp = Date()
-        let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
-        XCTAssertNil(latestInsertionError, "Expected to insert cache successfully")
+        insert((latestFeed, latestTimestamp), to: sut)
         expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
     }
 
@@ -94,7 +96,16 @@ final class CodableFeedStoreTests: XCTestCase {
         expect(sut, toRetrieve: .empty)
     }
 
-    func test_delete_hasNoSizeEffectsOnEmptyCache() {
+    func test_insert_hasNoSideEffectsOnInsertionError() {
+        let invalidStoreURL = URL(string: "invalid://store-url")!
+        let sut = makeSUT(storeURL: invalidStoreURL)
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        insert((feed, timestamp), to: sut)
+        expect(sut, toRetrieve: .empty)
+    }
+
+    func test_delete_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
         let deletionError = deleteCache(from: sut)
         XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
@@ -114,6 +125,13 @@ final class CodableFeedStoreTests: XCTestCase {
         let sut = makeSUT(storeURL: noDeletePermissionURL)
         let deletionError = deleteCache(from: sut)
         XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+        expect(sut, toRetrieve: .empty)
+    }
+
+    func test_delete_hasNoSideEffectsOnDeletionError() {
+        let noDeletePermissionURL = cachesDirectory()
+        let sut = makeSUT(storeURL: noDeletePermissionURL)
+        deleteCache(from: sut)
         expect(sut, toRetrieve: .empty)
     }
 
