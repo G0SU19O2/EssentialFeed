@@ -147,7 +147,7 @@
 				46132C5C2C453C6A00A32CA5 /* FeedStore.swift */,
 				468390752C467AA3006AD949 /* LocalFeedImage.swift */,
 				E9F320CF2C5401F4004F7B87 /* CodableFeedStore.swift */,
-				4656A03D2C5B840000B8FC03 /* CoreDataFeedStore.swift */,
+				4697C8442C60D5BA00A7E9D2 /* Infrastructure */,
 				4656A03F2C5B862B00B8FC03 /* FeedStore.xcdatamodeld */,
 			);
 			path = "Feed Cache";
@@ -225,6 +225,14 @@
 				E910E2D72C4AB3F90089D53E /* SharedTestHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		4697C8442C60D5BA00A7E9D2 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				4656A03D2C5B840000B8FC03 /* CoreDataFeedStore.swift */,
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		46C7DD402C3D3A820071E072 /* EssentialFeedAPIEndToEndTests */ = {
