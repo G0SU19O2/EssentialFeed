@@ -39,8 +39,8 @@ final class EssentialFeedAPIEndToEndTests: XCTestCase {
             loadFeedResult = result
             expectation.fulfill()
         }
-        trackForMemoryLeads(client)
-        trackForMemoryLeads(loader)
+        trackForMemoryLeaks(client)
+        trackForMemoryLeaks(loader)
         wait(for: [expectation], timeout: 5)
         return loadFeedResult
     }

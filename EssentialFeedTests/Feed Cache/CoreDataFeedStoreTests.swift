@@ -75,7 +75,7 @@ class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
         let storeURL = URL(fileURLWithPath: "/dev/null")
         let storeBundle = Bundle(for: CoreDataFeedStore.self)
         let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
-        trackForMemoryLeads(sut)
+        trackForMemoryLeaks(sut)
         return sut
     }
 }
