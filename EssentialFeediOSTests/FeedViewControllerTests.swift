@@ -21,11 +21,14 @@ final class FeedViewController: UITableViewController {
 
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
+        refreshControl?.beginRefreshing()
         load()
     }
 
     @objc private func load() {
-        loader?.load { _ in }
+        loader?.load { [weak self] _ in
+            self?.refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -51,12 +54,31 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
 
+    func test_viewDidLoad_doNotShowsLoadingIndicator() {
+        let (sut, _) = makeSUT()
+        sut.loadViewIfNeeded()
+        // iOS 17
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+
+    func test_viewDidLoad_hidesLoadingIndicatorOnLoaderCompletion() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        loader.completeFeedLoading()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+    }
+
     class LoaderSpy: FeedLoader {
+        private(set) var loadCallCount: Int = 0
+        private var completions = [(EssentialFeed.LoadFeedResult) -> Void]()
         func load(completion: @escaping (EssentialFeed.LoadFeedResult) -> Void) {
             loadCallCount += 1
+            completions.append(completion)
         }
 
-        var loadCallCount: Int = 0
+        func completeFeedLoading() {
+            completions[0](.success([]))
+        }
     }
 
     // MARK: - Helpers
@@ -72,7 +94,7 @@ final class FeedViewControllerTests: XCTestCase {
 
 private extension UIRefreshControl {
     func simulatePullToRefresh() {
-        allTargets.forEach { target in
+        for target in allTargets {
             actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
                 (target as NSObject).perform(Selector($0))
             }
