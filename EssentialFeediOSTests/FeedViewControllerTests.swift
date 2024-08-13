@@ -68,6 +68,13 @@ final class FeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
     }
 
+    func test_pullToRefresh_showsLoadingIndicator() {
+        let (sut, _) = makeSUT()
+        sut.replaceRefreshControlWithFakeForiOS17Support()
+        sut.refreshControl?.beginRefreshing()
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+    }
+
     class LoaderSpy: FeedLoader {
         private(set) var loadCallCount: Int = 0
         private var completions = [(EssentialFeed.LoadFeedResult) -> Void]()
@@ -99,5 +106,27 @@ private extension UIRefreshControl {
                 (target as NSObject).perform(Selector($0))
             }
         }
+    }
+}
+private extension FeedViewController {
+    func replaceRefreshControlWithFakeForiOS17Support() {
+        let fake = FakeRefreshControl()
+        refreshControl?.allTargets.forEach({ target in
+            refreshControl?.actions(forTarget: target, forControlEvent: .valueChanged)?.forEach({ action in
+                fake.addTarget(target, action: Selector(action), for: .valueChanged)
+            })
+        })
+        refreshControl = fake
+    }
+}
+private class FakeRefreshControl: UIRefreshControl {
+    private var _isRefreshing = false
+    override var isRefreshing: Bool { return _isRefreshing }
+    override func beginRefreshing() {
+        _isRefreshing = true
+    }
+
+    override func endRefreshing() {
+        _isRefreshing = false
     }
 }
