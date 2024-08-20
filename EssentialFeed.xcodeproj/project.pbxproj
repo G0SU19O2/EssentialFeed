@@ -56,6 +56,7 @@
 		E97CA5422C667B4100F4E8CF /* EssentialFeediOS.h in Headers */ = {isa = PBXBuildFile; fileRef = E97CA5342C667B4000F4E8CF /* EssentialFeediOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E98C96F32C32E56F00C53EF5 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98C96F22C32E56E00C53EF5 /* HTTPClient.swift */; };
 		E98C96F52C32E60600C53EF5 /* FeedItemsMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98C96F42C32E60600C53EF5 /* FeedItemsMapper.swift */; };
+		E9D1FF692C74FD4300501C92 /* FeedImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1FF682C74FD4300501C92 /* FeedImageCell.swift */; };
 		E9F320D02C5401F4004F7B87 /* CodableFeedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F320CF2C5401F4004F7B87 /* CodableFeedStore.swift */; };
 /* End PBXBuildFile section */
 
@@ -142,6 +143,7 @@
 		E97CA54A2C667FDA00F4E8CF /* CI_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI_iOS.xctestplan; sourceTree = "<group>"; };
 		E98C96F22C32E56E00C53EF5 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		E98C96F42C32E60600C53EF5 /* FeedItemsMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedItemsMapper.swift; sourceTree = "<group>"; };
+		E9D1FF682C74FD4300501C92 /* FeedImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedImageCell.swift; sourceTree = "<group>"; };
 		E9F320CF2C5401F4004F7B87 /* CodableFeedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableFeedStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -351,6 +353,7 @@
 				E97CA5342C667B4000F4E8CF /* EssentialFeediOS.h */,
 				E97CA5352C667B4000F4E8CF /* EssentialFeediOS.docc */,
 				E963A0C92C6CF9F800334AA1 /* FeedViewController.swift */,
+				E9D1FF682C74FD4300501C92 /* FeedImageCell.swift */,
 			);
 			path = EssentialFeediOS;
 			sourceTree = "<group>";
@@ -675,6 +678,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E963A0CA2C6CF9F800334AA1 /* FeedViewController.swift in Sources */,
+				E9D1FF692C74FD4300501C92 /* FeedImageCell.swift in Sources */,
 				E97CA5362C667B4000F4E8CF /* EssentialFeediOS.docc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
